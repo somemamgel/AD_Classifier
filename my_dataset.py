@@ -38,9 +38,12 @@ class MyDataSet(Dataset):
         f = re.findall('ADNI_(.*)_MR_.*(I[0-9]{1,8})\\.nii', str(f_path))[0]
         label = self.metadata[f[0] + '-' + f[1]]
         if label == 'AD':
-            label = torch.tensor([1.0, 0.0, 0.0])
+            # label = torch.tensor([1.0, 0.0, 0.0])
+            label = torch.tensor(0)
         elif label == 'MCI':
-            label = torch.tensor([0.0, 1.0, 0.0])
+            # label = torch.tensor([0.0, 1.0, 0.0])
+            label = torch.tensor(1)
         elif label == 'CN':
-            label = torch.tensor([0.0, 0.0, 1.0])
+            # label = torch.tensor([0.0, 0.0, 1.0])
+            label = torch.tensor(2)
         return img, label
