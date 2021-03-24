@@ -3,18 +3,22 @@ import nibabel
 import pandas
 import re
 import numpy
-import time
+import torch
+
+from torch import float64
 from torch.utils.data import Dataset
 import skimage.transform
 
 
 def img_preprocess(data):
-    img = numpy.array(data.get_fdata())
-    time_start = time.time()
-    img = skimage.transform.resize(img, (145, 121, 121))
-    time_end = time.time()
-    print('Time cost:', time_end - time_start, 's')
-    return img
+    img = skimage.transform.resize(numpy.array(data.get_data()), (145, 145, 145))
+    # img = numpy.array(data.get_data()).astype(numpy.float32)
+    # channel = numpy.array([1])
+    # time_start = time.time()
+    return img[None, ...]
+    # time_end = time.time()
+    # print('Time cost:', time_end - time_start, 's')
+    # return img
 
 
 class MyDataSet(Dataset):
@@ -33,4 +37,10 @@ class MyDataSet(Dataset):
         # ./ADNI_002_S_0295_MR_MPR__GradWarp__B1_Correction__N3__Scaled_2_Br_20081001114556321_S13408_I118671.nii
         f = re.findall('ADNI_(.*)_MR_.*(I[0-9]{1,8})\\.nii', str(f_path))[0]
         label = self.metadata[f[0] + '-' + f[1]]
+        if label == 'AD':
+            label = torch.tensor([1.0, 0.0, 0.0])
+        elif label == 'MCI':
+            label = torch.tensor([0.0, 1.0, 0.0])
+        elif label == 'CN':
+            label = torch.tensor([0.0, 0.0, 1.0])
         return img, label
