@@ -43,7 +43,7 @@ class MyDataSet(Dataset):
         super().__init__()
         self.metadata: dict = {i[1]['Subject'] + '-' + i[1]['Image Data ID']: i[1]['Group'] for i in
                                pandas.read_csv(csv_file_path).iterrows()}
-        self.file_list: list = [x for x in images_dir_path.rglob('*.nii')]
+        self.file_list: list = [x for x in images_dir_path.rglob('*.nii')]  # ('*.nii.gz')
         self.is_train = is_train
 
     def __len__(self):
