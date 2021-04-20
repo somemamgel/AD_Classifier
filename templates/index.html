@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>皮肤癌分类</title>
+    <!-- <script src="/static/lib/vue/vue.global.js"></script> -->
+    <script src="/static/lib/vue/vue.global.prod.js"></script>
+    <!-- <script src="/static/lib/vue/vue@2.6.12.js"></script> -->
+    <script src="/static/lib/axios/axios.js"></script>
+    <script src="/static/lib/fontawesome/fontawesome@5.14.0.js"></script>
+    <script src="/static/lib/nifti-reader.js"></script>
+    <link rel="stylesheet" href="/static/lib/bulma/css/bulma.css">
+</head>
+
+<body>
+    <nav class="navbar has-shadow is-spaced" role="navigation" aria-label="main navigation">
+        <div class="container">
+            <div class="navbar-brand">
+                <span class="navbar-item title is-4">使用 MRI 图像的阿尔茨海默症预测</span>
+            </div>
+
+            <div class="navbar-menu">
+                <div class="navbar-start">
+                    <a class="navbar-item" href="#">
+
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <section class="section">
+        {% raw %}
+        <div class="container" id="predict-body">
+            <div class="columns">
+                <div class="column is-two-fifths">
+                    <!-- <div class="field">
+                        <figure class="image is-square">
+                            <label class=""></label>
+                            <img v-bind:src="image_path">
+                        </figure>
+                    </div> -->
+                    <label></label>
+                    <table class="table is-hoverable">
+                        <thead>
+                            <tr>
+                                <th><abbr title="Type">Type</abbr></th>
+                                <th><abbr title="Probability">Prob</abbr></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th><abbr title="阿尔茨海默症患者">AD</abbr></th>
+                                <td>{{ ad_value }}</td>
+                            </tr>
+                            <tr>
+                                <th><abbr title="正常/未患病">NC</abbr></th>
+                                <td>{{ nc_value }}</td>
+                            </tr>
+                            <tr>
+                        </tbody>
+                    </table>
+                    <div class="field">
+                        <div class="file has-name is-fullwidth is-primary">
+                            <label class="file-label">
+                                <input class="file-input" ref="file" type="file" name="image" accept=".nii,.nii.gz"
+                                    @change="handleFileUpload($event)">
+                                <span class="file-cta">
+                                    <span class="file-icon">
+                                        <i class="fas fa-upload"></i>
+                                    </span>
+                                    <span class="file-label">
+                                        选择 NIfTI 图片...
+                                    </span>
+                                </span>
+                                <span class="file-name">
+                                    {{ filename }}
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="field is-grouped">
+                        <div class="control">
+                            <button class="button is-primary" @click="handleSubmitRequests($event)">提交</button>
+                        </div>
+                        <div class="control">
+                            <button class="button is-danger" @click="handleClear($event)">清除</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="column is-one-fifth">
+                </div>
+
+                <div class="column is-two-fifth">
+                    <!-- <table class="table is-hoverable">
+                        <thead>
+                            <tr>
+                                <th><abbr title="Result">Result</abbr></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <span class="has-text-black">
+                                        {{ result_text }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table> -->
+                </div>
+
+            </div>
+
+
+
+        </div>
+        {% endraw %}
+    </section>
+    <!-- <footer class="footer">
+        <div class="content has-text-centered">
+            <p>
+            </p>
+        </div>
+    </footer> -->
+    <script>
+    </script>
+
+    <script src="/static/main.js"></script>
+
+</body>
+
+</html>
