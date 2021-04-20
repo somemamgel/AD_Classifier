@@ -12,6 +12,7 @@ python api.py
 ```
 
 # Dependence
+- Python    3.7.9
 - PyTorch   1.8.0+cu111
 - Flask     1.1.2
 - CUDA      11.0
