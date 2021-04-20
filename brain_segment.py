@@ -15,8 +15,8 @@ ext = Extractor()
 
 def trim(arr, mask):
     bounding_box = tuple(
-        slice(numpy.min(indexes), numpy.max(indexes) + 1)
-        for indexes in numpy.where(mask))
+        slice(numpy.min(indexes),
+              numpy.max(indexes) + 1) for indexes in numpy.where(mask))
     return arr[bounding_box]
 
 
@@ -42,9 +42,15 @@ def img_resample(image):
     resample.SetOutputDirection(image.GetDirection())
 
     size = [
-        int(numpy.round(original_size[0] * (original_spacing[0] / new_spacing[0]))),
-        int(numpy.round(original_size[1] * (original_spacing[1] / new_spacing[1]))),
-        int(numpy.round(original_size[2] * (original_spacing[2] / new_spacing[2])))
+        int(
+            numpy.round(original_size[0] *
+                        (original_spacing[0] / new_spacing[0]))),
+        int(
+            numpy.round(original_size[1] *
+                        (original_spacing[1] / new_spacing[1]))),
+        int(
+            numpy.round(original_size[2] *
+                        (original_spacing[2] / new_spacing[2])))
     ]
     resample.SetSize(size)
 
@@ -58,7 +64,6 @@ def main():
     file_list = [x for x in data_path.rglob('*.nii')]
 
     for i in file_list:
-        print(i.name)
         data = sitk.ReadImage(str(i))
         data = img_resample(data)
         data = sitk.GetArrayFromImage(data)
@@ -68,7 +73,7 @@ def main():
         data = trim(data, data != 0)
         data = f.normalize(torch.from_numpy(data), p=2, dim=-1).numpy()
         data = sitk.GetImageFromArray(data)
-        sitk.WriteImage(data, str(save_path / (i.name + '.gz')))
+        sitk.WriteImage(data, str(save_path / (i.name + '.gz')))  # 压缩存储
         pass
 
 
@@ -89,12 +94,13 @@ def get_shape_info():
         if i_min[0] > shape[0]:
             i_min[0] = shape[0]
         if i_min[1] > shape[1]:
-            i_min[1]  = shape[1]
+            i_min[1] = shape[1]
         if i_min[2] > shape[2]:
             i_min[2] = shape[2]
 
     print(i_max)
     print(i_min)
+
 
 if __name__ == '__main__':
     main()

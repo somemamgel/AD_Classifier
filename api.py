@@ -11,7 +11,7 @@ import SimpleITK as sitk
 import torch
 import torch.backends.cudnn
 import torch.nn.functional as f
-from flask import Flask, abort, jsonify, render_template, request, session
+from flask import Flask, abort, jsonify, render_template, request, session, Response
 
 app = Flask(__name__)
 
@@ -117,18 +117,7 @@ def predict():
 
 
 if __name__ == "__main__":
-    # divider_string = '=' * 80
-    # print("\n\n")
-    # print(divider_string)
-    # print(time.strftime("%Y-%m-%d %H:%M:%S ", time.localtime(time.time())), end="")
-    # print("Loading Model............")
-
     model = torch.load("./best_model.pth").cuda().eval()
-
-    # print(time.strftime("%Y-%m-%d %H:%M:%S ", time.localtime(time.time())), end="")
-    # print("Model is loaded!")
-    # print(divider_string)
-    # print("\n\n")
 
     mimetypes.add_type("application/javascript", ".js")
     app.config["SECRET_KEY"] = os.urandom(24)
