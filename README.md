@@ -2,6 +2,10 @@
 Alzheimer's disease classifier based on PyTorch and Flask
 
 # Usage
+Skull Strip
+```bash
+python brain_segment.py
+```
 Train model:
 ```bash
 python train.py
