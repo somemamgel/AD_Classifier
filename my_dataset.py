@@ -39,7 +39,7 @@ def img_preprocess(data, is_train):
         img = random_crop_3d(img.numpy(), (110, 110, 110))
     else:
         img = f.normalize(torch.from_numpy(img), p=2, dim=-1).numpy()
-    return img
+    return img[None, ...]
 
 
 class MyDataSet(Dataset):
@@ -49,7 +49,7 @@ class MyDataSet(Dataset):
             i[1]['Subject'] + '-' + i[1]['Image Data ID']: i[1]['Group']
             for i in pandas.read_csv(csv_file_path).iterrows()
         }
-        self.file_list: list = [x for x in images_dir_path.rglob('*.nii')
+        self.file_list: list = [x for x in images_dir_path.rglob('*.nii.gz')
                                 ]  # ('*.nii.gz')
         self.is_train = is_train
 

@@ -1,4 +1,4 @@
-server_url = 'http://127.0.0.1:9000/api/v1/predict';  // 默认请求地址
+server_url = 'http://127.0.0.1:9000/api/prediction';  // 默认请求地址
 
 var res_text_dict = {
     akiec: '光化性角化病/上皮内癌/鲍恩氏病（akiec）。',
@@ -25,6 +25,7 @@ const app = Vue.createApp({
             filename: '',
             image_path: '',
             ad_value: null,
+            mci_value: null,
             nc_value: null,
         }
     },
@@ -55,11 +56,11 @@ const app = Vue.createApp({
                     headers: {}
                 }).then((response) => {
                     let result = response.data;
-                    if (result[0] === 'prob' && Object.keys(result[1]).length == 2) {
+                    if (result[0] === 'prob' && Object.keys(result[1]).length == 3) {
                         console.log("data received from api!");
-                        console.log(result)
                         let r = result[1];
                         this.ad_value = (r['ad'] * 100).toFixed(4) + '%';
+                        this.mci_value = (r['mci'] * 100).toFixed(4) + '%';
                         this.nc_value = (r['nc'] * 100).toFixed(4) + '%';
                         let max = 0;
                         let index;

@@ -13,11 +13,14 @@ import torch.backends.cudnn
 import torch.nn.functional as f
 from flask import Flask, abort, jsonify, render_template, request, session, Response
 
+from model import resnet, densenet
+
 app = Flask(__name__)
 
 pprd_init_value = -1
 predict_prob_result_dict = {
     "ad": pprd_init_value,
+    "mci": pprd_init_value,
     "nc": pprd_init_value,
 }
 
@@ -32,7 +35,7 @@ def init_result_dict():
 def save_result_to_dict(result_list):
     init_result_dict()
     dict_keys_list = list(predict_prob_result_dict.keys())
-    for keynum in range(0, 2):
+    for keynum in range(0, 3):
         predict_prob_result_dict[dict_keys_list[keynum]] = float(result_list[keynum])
 
 
@@ -93,7 +96,7 @@ def index():
     return render_template("index.html")
 
 
-@app.route("/api/v1/predict", methods=["POST"])  # 仅接受 POST 请求
+@app.route("/api/prediction", methods=["POST"])  # 仅接受 POST 请求
 def predict():
     if session.get("id"):
         uid = session["id"]
@@ -117,7 +120,11 @@ def predict():
 
 
 if __name__ == "__main__":
-    model = torch.load("./best_model.pth").cuda().eval()
+
+    # model = torch.load("./best_model.pth").cuda().eval()
+    model = resnet.generate_model(model_depth=152, n_input_channels=1, n_classes=3)
+    model.load_state_dict(torch.load("./best_resnet_model_save_3_classes.pt")['net'])
+    model.cuda().eval()
 
     mimetypes.add_type("application/javascript", ".js")
     app.config["SECRET_KEY"] = os.urandom(24)

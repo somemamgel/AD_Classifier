@@ -59,19 +59,34 @@ def img_resample(image):
 
 
 def main():
-    data_path = Path("")
+    data_path = Path(r"")
     save_path = Path("")
     file_list = [x for x in data_path.rglob('*.nii')]
 
     for i in file_list:
         data = sitk.ReadImage(str(i))
+        # img = sitk.GetArrayFromImage(data)
+        # plt.imshow(img[:, 75, :], cmap='gray')
+        # plt.show()
+        # plt.imshow(img[75, :, :], cmap='gray')
+        # plt.show()
+        # plt.imshow(img[:, :, 75], cmap='gray')
+        # plt.show()
+        # exit(0)
         data = img_resample(data)
         data = sitk.GetArrayFromImage(data)
         prob = ext.run(data)
         mask = prob < 0.5
         data[mask] = 0
-        data = trim(data, data != 0)
+        img = trim(data, data != 0)
         data = f.normalize(torch.from_numpy(data), p=2, dim=-1).numpy()
+        # plt.imshow(img[:, 75, :], cmap='gray')
+        # plt.show()
+        # plt.imshow(img[75, :, :], cmap='gray')
+        # plt.show()
+        # plt.imshow(img[:, :, 75], cmap='gray')
+        # plt.show()
+        # exit(0)
         data = sitk.GetImageFromArray(data)
         sitk.WriteImage(data, str(save_path / (i.name + '.gz')))  # 压缩存储
         pass
