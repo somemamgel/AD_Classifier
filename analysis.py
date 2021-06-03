@@ -14,11 +14,9 @@ if torch.cuda.is_available():
 else:
     raise Exception(print("No CUDA device available!"))
 
-data_path = Path(r"E:\\GraduationDesign\\1.5T\\dataset\\")
-metadata_path = Path(
-    r"C:\\Users\\Lilith\\Desktop\\ADNI1_Complete_1Yr_1.5T_3_20_2021.csv")
-model_path = Path(
-    r"C:\\Users\\Lilith\\Desktop\\GraduationDesign\\best_model.pth")
+data_path = Path(r"/path/to/data")
+metadata_path = Path(r"/path/to/metadata")
+model_path = Path(r"/path/to/model")
 
 dataset = MyDataSet(images_dir_path=data_path,
                     csv_file_path=metadata_path,
@@ -42,6 +40,7 @@ model = densenet.generate_model(model_depth=121, n_input_channels=1, num_classes
 model.load_state_dict(torch.load("./best_resnet_model_save_3_classes.pt")['net'])
 model.cuda().eval()
 
+#  混淆矩阵
 result = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
 
 

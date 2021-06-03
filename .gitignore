@@ -2,3 +2,5 @@
 *bak*
 test.py
 *.pt*
+*.csv
+temp/
