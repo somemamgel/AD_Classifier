@@ -4,3 +4,4 @@ test.py
 *.pt*
 *.csv
 temp/
+*/__pycache__/
