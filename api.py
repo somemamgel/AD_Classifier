@@ -68,7 +68,7 @@ def img_to_tensor(img):
     data = sitk.ReadImage(img)
     data = img_resample(data)
     data = sitk.GetArrayFromImage(data)
-    return torch.from_np(data[None, ...][None, ...]).cuda()
+    return torch.from_numpy(data[None, ...][None, ...]).cuda()
 
 
 #  运行预测
@@ -99,13 +99,19 @@ def predict():
 
     upload_file = request.files["image"]
     if upload_file:
-        temp_file_path = r"./temp/" + uid + ".nii"  #  用 UID 命名临时文件
+        #  用 UID 命名临时文件
+        extension = upload_file.filename.split('.')[-1]
+        if extension == "nii":
+            temp_file_path = r"./temp/" + uid + ".nii"
+        elif extension == "gz":
+            temp_file_path = r"./temp/" + uid + ".nii.gz"
+
         upload_file.save(temp_file_path)
 
         data = img_resample(sitk.ReadImage(temp_file_path))
         data = sitk.GetArrayFromImage(data).astype(np.float32)
-        data = f.normalize(torch.from_np(data), p=2, dim=-1).numpy()
-        data = torch.from_np(data[None, ...][None, ...]).cuda()
+        data = f.normalize(torch.from_numpy(data), p=2, dim=-1).numpy()
+        data = torch.from_numpy(data[None, ...][None, ...]).cuda()
 
         do_predict(model, data)
 

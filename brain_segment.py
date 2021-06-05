@@ -74,7 +74,7 @@ def main():
         mask = prob < 0.5       #  从概率数组获取 mask 数组
         data[mask] = 0          #  将非大脑组织区域体素清空
         img = trim(data, data != 0)     #  仅保留含有大脑组织的区域
-        # data = f.normalize(torch.from_np(data), p=2, dim=-1).numpy()   #  L2 归一化
+        # data = f.normalize(torch.from_numpy(data), p=2, dim=-1).numpy()   #  L2 归一化
         data = sitk.GetImageFromArray(data)
         sitk.WriteImage(data, str(save_path / (i.name + '.gz')))  # 压缩存储
 

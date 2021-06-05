@@ -1,14 +1,7 @@
 server_url = 'http://127.0.0.1:9000/api/prediction';  // 默认请求地址
 
-var res_text_dict = {
-    akiec: '光化性角化病/上皮内癌/鲍恩氏病（akiec）。',
-    bcc: '基底细胞癌（bcc）。发生转移率低，比较偏向于良性。',
-    bkl: '良性角化病（bkl）。',
-    df: '皮肤纤维瘤（df）。是成纤维细胞或组织细胞灶性增生引致的一种真皮内的良性肿瘤。',
-    mel: '黑色素瘤（mel）。恶性黑色素瘤，是黑色素细胞来源的一种高度恶性的肿瘤。',
-    nv: '黑色素痣（nv）。是由一群良性的黑色素细胞，聚集在表皮与真皮的交界产生的。',
-    vasc: '血管病变（vasc）。'
-};
+// var res_text_dict = {
+// };
 
 
 // 获取上传图片的路径
@@ -62,15 +55,15 @@ const app = Vue.createApp({
                         this.ad_value = (r['ad'] * 100).toFixed(4) + '%';
                         this.mci_value = (r['mci'] * 100).toFixed(4) + '%';
                         this.nc_value = (r['nc'] * 100).toFixed(4) + '%';
-                        let max = 0;
-                        let index;
-                        for (let i in r) {
-                            if (r[i] > max) {
-                                index = i;
-                                max = r[i];
-                            }
-                        }
-                        this.result_text = (r[index] * 100).toFixed(2) + '%' + ' - ' + res_text_dict[index];
+                        // let max = 0;
+                        // let index;
+                        // for (let i in r) {
+                        //     if (r[i] > max) {
+                        //         index = i;
+                        //         max = r[i];
+                        //     }
+                        // }
+                        // this.result_text = (r[index] * 100).toFixed(2) + '%' + ' - ' + res_text_dict[index];
                     }
                     else {
                         console.log("faild!");
